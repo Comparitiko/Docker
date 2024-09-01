@@ -1,0 +1,19 @@
+docker container run \
+-dp 3306:3306 \
+--name world-db \
+-e MARIADB_USER=example-user \
+-e MARIADB_PASSWORD=user-password \
+-e MARIADB_ROOT_PASSWORD=root-secret-password \
+-e MARIADB_DATABASE=world-db \
+-v world-db:/var/lib/mysql \
+--network world-app \
+mariadb:jammy
+
+docker pull phpmyadmin:5.2.0-apache
+
+docker container run \
+--name phpmyadmin \
+-dp 8080:80 \
+-e PMA_ARBITRARY=1 \
+--network world-app \
+phpmyadmin:5.2.0-apache
