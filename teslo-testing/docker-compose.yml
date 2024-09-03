@@ -1,0 +1,32 @@
+services:
+  app:
+    depends_on:
+      - db
+    restart: unless-stopped
+    image: comparitiko/teslo-shop:1.1.0
+    container_name: teslo-app
+    environment:
+      - APP_VERSION=1.1.0
+      - STAGE=prod
+      - DB_PASSWORD=MySecr3tPassWord@as2
+      - DB_NAME=TesloDB
+      - DB_HOST=TesloDB
+      - DB_PORT=5432
+      - DB_USERNAME=postgres
+      - PORT=4000
+      - HOST_API=4000/api
+      - JWT_SECRET=Est3EsMISE3Dsecreto32s
+    ports:
+      - ${PORT}:${PORT}
+
+  db:
+    image: postgres:14.1
+    container_name: ${DB_NAME}
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - data-db:/var/lib/postgresql/data
+
+volumes:
+  data-db:
